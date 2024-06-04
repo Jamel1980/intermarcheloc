@@ -1,0 +1,116 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Récapitulatif de votre commande{% endblock %}
+
+{% block stylesheets %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url(https://www.oktalite.com/fileadmin/referenzen/food/intermarche-conches-en-ouche-frankreich/food-intermarche-conches-en-ouche-eingang-oktalite-10-slider.jpg);
+    background-size:cover;
+    background-attachment:fixed;
+    margin: 0;
+    padding: 0;
+  }
+  .card {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Ombre douce et subtile */
+    border: 1px solid; /* Bordure visible */
+    border-radius: 15px;
+    max-width: 800px; /* Largeur maximale de la carte */
+    margin: 2rem auto; /* Centrer la carte avec une marge */
+    background-color: #fff; /* Couleur de fond de la carte */
+  }
+  .card-header {
+    font-weight: 500;
+    padding: 1rem;
+    text-align: center;
+    background-color: #343a40; /* Couleur de fond de l'en-tête */
+    color: white; /* Couleur du texte de l'en-tête */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+  .card-header h1 {
+    font-size: 1.75rem; /* Taille de titre ajustée */
+    margin: 0;
+    color:white;
+  }
+  .card-body {
+    padding: 2rem;
+  }
+  .card-title {
+    font-weight: 700;
+    color: #343a40;
+  }
+  .card-text {
+    font-weight: 400;
+    color: #6c757d;
+    margin-bottom: 1rem; /* Espacement sous les textes */
+  }
+  .card-subtitle {
+    font-weight: 500;
+    color: #6c757d;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .container {
+    max-width: 1000px; /* Largeur maximale du conteneur */
+    padding: 1rem;
+  }
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+  }
+  .info-divider {
+    border-top: 1px solid #dee2e6;
+    margin: 1.5rem 0;
+  }
+  .btn-custom {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
+  .btn-custom:hover {
+    background-color: black;
+    color: white;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h1>Récapitulatif de votre commande</h1>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-md-6 d-flex align-items-center justify-content-center p-4">
+                <img src="{{ commande.vehicule.photo }}" alt="{{ commande.vehicule.titre }}" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <div class="card-body">
+                    <h4 class="card-title">{{ commande.vehicule.titre }}</h4>
+                    <p class="card-text">{{ commande.vehicule.description }}</p>
+                    <div class="info-divider"></div>
+                    <h5 class="card-subtitle">Date de départ :</h5>
+                    <p>{{ commande.DateHeureDepart|date('d/m/Y H:i') }}</p>
+                    <div class="info-divider"></div>
+                    <h5 class="card-subtitle">Date de retour :</h5>
+                    <p>{{ commande.DateHeureFin|date('d/m/Y H:i') }}</p>
+                    <div class="info-divider"></div>
+                    <h5 class="card-subtitle">Prix TTC :</h5>
+                    <p>{{ commande.prixtotal }}€</p>
+                    <div class="text-center mt-4">
+                        <a href="{{ path('monCompte') }}" class="btn btn-custom">Confirmer la commande</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

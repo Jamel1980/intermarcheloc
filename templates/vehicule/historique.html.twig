@@ -1,0 +1,143 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Mon Compte{% endblock %}
+
+{% block stylesheets %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url(https://www.oktalite.com/fileadmin/referenzen/food/intermarche-conches-en-ouche-frankreich/food-intermarche-conches-en-ouche-eingang-oktalite-10-slider.jpg);
+    background-size:cover;
+    background-attachment:fixed;
+    margin: 0;
+    padding: 0;
+  }
+  .card {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Ombre douce et subtile */
+    border: 1px solid; /* Bordure visible */
+    border-radius: 15px;
+    margin: 2rem auto; /* Centrer la carte avec une marge */
+    background-color: #fff; /* Couleur de fond de la carte */
+  }
+  .card-header {
+    font-weight: 500;
+    padding: 1rem;
+    text-align: center;
+    background-color: #343a40; /* Couleur de fond de l'en-tête */
+    color: white; /* Couleur du texte de l'en-tête */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    margin-bottom: 1rem; /* Espacement en bas */
+  }
+  .card-header h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: white;
+  }
+  .card-body {
+    padding: 2rem;
+  }
+  .card-title {
+    font-weight: 700;
+    color: #343a40;
+  }
+  .card-text {
+    font-weight: 400;
+    color: #6c757d;
+    margin-bottom: 1rem;
+    text-align: center; 
+    font-size:1rem;
+  
+  }
+  .btn-custom {
+    background-color: #007bff;
+    color: white;
+    border-radius: 10px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    
+  }
+  .btn-custom:hover {
+    background-color: black;
+    color: white;
+  }
+  .container {
+    max-width: 1000px; /* Largeur maximale du conteneur */
+    padding: 1rem;
+  }
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+  }
+  .info-divider {
+    border-top: 1px solid #dee2e6;
+    margin: 1.5rem 0;
+  }
+  .text-center {
+    text-align: center;
+    color: white;
+    
+  }
+  .text-muted {
+    color: #6c757d;
+  }
+  .card-order {
+    width: 18rem; /* Largeur fixe des cartes de commande */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+{% if app.user %}
+<div class="container my-5">
+  <h1 class="text-center mb-5">Mon compte</h1>
+
+  <div class="card card-account-info mx-auto">
+    <div class="card-header">
+      <h1 class="text-center">Informations du compte</h1> <!-- Texte centré -->
+    </div>
+    <div class="card-body text-center">
+      <p class="card-text"><strong>Nom :</strong> {{ app.user.nom }}</p>
+      <p class="card-text"><strong>Prénom :</strong> {{ app.user.prenom }}</p>
+      <p class="card-text"><strong>Email :</strong> {{ app.user.email }}</p>
+      <p class="card-text"><strong>Date de naissance :</strong> {{ app.user.dateNaissance|date('d/m/Y') }}</p>
+
+      <a href="/profileedit" class="btn btn-custom mt-3">Modifier mes informations</a>
+    </div>
+  </div>
+
+  <h2 class="text-center mt-5">Historique de commandes</h2>
+
+  <div class="d-flex justify-content-center flex-wrap">
+    {% for commande in commandes %}
+      <div class="card card-order m-3">
+        <div class="card-header text-center">
+          Numéro de commande : {{ commande.id }}
+        </div>
+        <div class="card-body text-center">
+          <h4 class="card-title">{{ commande.vehicule.titre }}</h4>
+          <img src="{{ commande.vehicule.photo }}" alt="{{ commande.vehicule.titre }}" class="img-fluid my-3">
+          <div class="info-divider"></div>
+          <p class="card-text"><strong>Date de restitution :</strong> {{ commande.DateHeureFin|date('d/m/Y H:i') }}</p>
+          <div class="info-divider"></div>
+          <p class="card-text"><strong>Prix total :</strong> {{ commande.prixtotal }}€</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

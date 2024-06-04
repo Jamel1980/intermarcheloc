@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block stylesheets %}
+<style>
+ body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url(https://www.oktalite.com/fileadmin/referenzen/food/intermarche-conches-en-ouche-frankreich/food-intermarche-conches-en-ouche-eingang-oktalite-10-slider.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+ }
+ .card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+ }
+ h1 {
+    color: #333;
+ }
+ .form-label {
+    font-weight: bold;
+    color: #555;
+ }
+ .form-control, .input-group-text {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+ }
+ .form-control:focus, .input-group-text:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ .btn-custom {
+    background-color: #e63946;
+    color: white;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
+ }
+ .btn-custom:hover {
+    background-color: #1d3557; 
+    color: white;
+ }
+ .btn-custom:active {
+    transform: translateY(1px);
+    box-shadow: none; 
+ }
+ .link-custom {
+    color: #e63946;
+    text-decoration: none;
+ }
+ .link-custom:hover {
+    text-decoration: underline;
+    color: #1d3557;
+ }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card shadow-lg p-5 rounded-2" style="max-width: 400px; width: 100%;">
+        <h1 class="text-center h3 mb-4">Connexion</h1>
+
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+                Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Déconnexion</a>
+            </div>
+        {% endif %}
+
+        <form method="post">
+            <div class="mb-3">
+                <label for="inputEmail" class="form-label">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="inputPassword" class="form-label">Mot de passe</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                </div>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <div class="d-grid mb-3">
+                <button class="btn btn-custom" type="submit">Connexion</button>
+            </div>
+            <div class="text-center">
+                <a href="{{ path('app_forgot_password_request') }}" class="link-custom">Mot de passe oublié ?</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

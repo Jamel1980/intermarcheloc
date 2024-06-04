@@ -1,0 +1,142 @@
+php bin/console make:user
+    -choisir un nom user....User par défaut
+    -stocker user data dans le BDD
+    -choisir le propriété unique que l'on veut: email(Vincent)
+    -hash mdp
+                                |
+                                |
+                                V 
+Vérifiez que ces 2 sont implémenté dans User.php
+    use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+    use Symfony\Component\Security\Core\User\UserInterface;       
+                                 |
+                                 |
+                                 V 
+php bin/console make:entity User                         
+    -entrer les propriété de la table BDD <<User>>
+    - Nous avons ajouté firstName, lastName & userName (en camelCase)
+    *N'ajoute pas email & password car ceux sont crées lors de la création de make:user
+                                |
+                                |
+                                V 
+                                
+#################################  MIGRATION ##########################################
+################### php bin/console make:migration -> php bin/console d:m:m   #########
+#######################################################################################
+
+------------------------------------------------------------------------------------------------
+
+#################################  FORM - Symfony 6.3 ##########################################
+############################   CREATION DE FORMULAIRE ##########################################
+#########################  php bin/console make:registration-form ##############################
+################################################################################################
+
+
+php bin/console make:registration-form
+    - automatiquement lié à utilisateur crée (User) et 
+    - nous demandera si nous souhaitons ajouter une entité #[UniqueEntity] - yes
+    *!!!Do you want to send an email to verify the user's email address after registration?
+    - "yes" pour un mailer en place et "non" sinon
+    -Choisir [13]Home
+
+
+Ajouter le reste de champs de formulaire (dans controller) car ils nous donne automatiquement (email + password + checkbox "agree to terms" uniquement). Une modification comme ci dessous:
+
+    $builder
+            ->add('email')
+            ->add('firstName')
+            ->add('lastName')
+            ->add('userName')
+            // ->add('agreeTerms', CheckboxType::class, [
+            //     'mapped' => false,
+            //     'constraints' => [
+            //         new IsTrue([
+            //             'message' => 'You should agree to our terms.',
+            //         ]),
+            //     ],
+            // ])
+
+Changer afin qu'on puisse demander utilisateur de remplir 2 fois de mdp lors d'inscription
+
+     ->add('plainPassword', PasswordType::class, [
+                // instead of being set onto the object directly,
+                // this is read and encoded in the controller
+                'mapped' => false,
+                'attr' => ['autocomplete' => 'new-password'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a password',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
+            ])       
+
+                                |
+                                |
+                                V 
+
+ *Personalise le comme ci -dessous    
+
+ ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                
+                //*personnaliser les msg d'error 
+                'first_options' =>['label' => 'mot de passe'],
+                
+                'second_options' =>['label' => 'confirmer le mot de passe'],
+
+                'invalid_message' =>'les mot de passes ne correspondent pas',    
+
+//***Regex à ajouter  (n'oublie pas d'importer la classe)   
+     - après new Length  
+
+                 new Regex([
+                        'pattern' => '/^(?=.*[a-z])(?=.*\d)(?=.*[@$!%#*?&])[A-Za-z\d@$!%#*?&]{8,}$/',
+                        'match' => true,
+                        "message" => 'Votre mot de passe doit contenir au moins un chiffre, un caractère spécial (@$!#%*?&), une lettre minuscule et une lettre majuscule !'
+                    ]),       
+
+  *Changer l'affichage de formulaire dans register.html.twig                                           
+----------------------------------------------------------------------------------------------------
+#################################  LOGIN & LOGOUT ###########################################
+############################# php bin/console make:auth   ###################################
+#############################################################################################
+
+  php bin/console make:auth  
+
+  What style of authentication do you want? [Empty authenticator]:
+  [0] Empty authenticator
+  [1] Login form authenticator
+ > 1
+
+  The class name of the authenticator to create (e.g. AppCustomAuthenticator):
+ > LoginFormAuthenticator
+
+ ChoIsir SecurityController et generer un logout
+
+Changer la route du fonction onAuthenticationSuccess dans LoginFormAuthenticator 
+  return new RedirectResponse($this->urlGenerator->generate('home'));
+
+---------------------------------------------------------------------------------------------
+
+  Relié comment au User
+
+  Supprimer ORM author et ses getter & setter
+   - On souhaite créer le propriété user et le remplacer
+
+  php bin/console make:entity Comment, 
+    - ajouter un propriété "user"
+    - relation à la classe User
+    - ManyToOne
+    - not allowed to be nullable
+    - yes to this function $user->getComments()
+
+ Avant de migrer, vider la table d'abord s'il y a des données   
+
+
+

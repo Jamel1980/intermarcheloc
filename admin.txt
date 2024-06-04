@@ -1,0 +1,27 @@
+créer un controller - AdminController
+ - return $this->render('admin/index.html.twig');
+Personnaliser index.html.twig de Admin 
+ - Coloriage
+Personnaliser dans le navbar avec un "if" car ceci est une fonction admin
+ - {% if is_granted("ROLE_ADMIN") %}{% endif %}
+Changer le role d'un utilisateur en ["ROLE_ADMIN"] dans phpmyadmin.
+
+Afin éviter erreur en tant qu'admin. Admin est aussi User. à ajouter dans security.yaml :
+
+role_hierarchy:
+        ROLE_ADMIN: ROLE_USER        
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         //*décommenter ceci dessus
+        # - { path: ^/profile, roles: ROLE_USER }
+
+ access_denied_url: /   //*uniquement quand on est connecté
+
+
+############ TIPS    ########################
+
+ $colonnes = $manager->getClassMetadata(Article::class)->getFieldNames();
+        // * Pour récuperer tous les nom de colonnes       

@@ -1,0 +1,110 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des membres{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .btn-custom {
+        background-color: red;
+        border-radius: 10px;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+    .btn-custom:hover {
+        background-color: #9f2b2b;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h2 class="card-title">Liste des membres</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Pseudo</th>
+                                    <th scope="col">Nom</th>
+                                    <th scope="col">Prénom</th>
+                                    <th scope="col">Date de naissance</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Civilité</th>
+                                    <th scope="col">Statut</th>
+                                    <th scope="col">Date inscription</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for membre in membres %}
+                                    <tr>
+                                        <td class="text-body">{{ membre.pseudo }}</td>
+                                        <td class="text-body">{{ membre.nom }}</td>
+                                        <td class="text-body">{{ membre.prenom }}</td>
+                                        <td class="text-body">{{ membre.dateNaissance|date('d/m/Y') }}</td>
+                                        <td class="text-body">{{ membre.email }}</td>
+                                        <td class="text-body">{{ membre.civilite }}</td>
+                                        <td class="text-body">{{ membre.roles|join(', ') }}</td>
+                                        <td class="text-body">{{ membre.dateEnregistrement|date('d/m/Y H:i') }}</td>
+                                        <td>
+                                            <a href="{{ path('admin_membre_edit', {id: membre.id}) }}#form-commandes-admin" class="btn btn-sm btn-warning me-2" title="Modifier"><i class="bi bi-pencil-square"></i></a>
+                                            <a href="{{ path('admin_membre_delete', {id: membre.id}) }}" class="btn btn-sm btn-danger" title="Supprimer"><i class="bi bi-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col">
+            <div class="card">
+                <div id="form-commandes-admin" class="card-header bg-dark text-white">
+                    <h2 class="card-title">Modifier un membre</h2>
+                </div>
+                <div class="card-body">
+                    {{ form_start(formMembre, {'attr': {'novalidate': 'novalidate'}}) }}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form_row(formMembre.pseudo, {'label': 'Pseudo', 'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_row(formMembre.nom, {'label': 'Nom', 'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_row(formMembre.prenom, {'label': 'Prénom', 'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_row(formMembre.dateNaissance, {'label': 'Date de naissance', 'widget': 'single_text', 'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_row(formMembre.email, {'label': 'Email', 'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form_row(formMembre.roles, {'label': 'Statut', 'attr': {'class': 'form-select'}}) }}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form_row(formMembre.civilite, {'label': 'Civilité', 'attr': {'class': 'form-select'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-custom w-100">Enregistrer</button>
+                    {{ form_end(formMembre) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

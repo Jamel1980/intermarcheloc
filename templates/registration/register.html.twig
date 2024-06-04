@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block stylesheets %}
+<style>
+ body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url(https://www.oktalite.com/fileadmin/referenzen/food/intermarche-conches-en-ouche-frankreich/food-intermarche-conches-en-ouche-eingang-oktalite-10-slider.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+ }
+ .card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+ }
+ h1 {
+    color: #333;
+ }
+ .form-label {
+    font-weight: bold;
+    color: #555;
+ }
+ .form-control, .form-select {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+ }
+ .form-control:focus, .form-select:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ }
+ .btn-custom {
+    background-color: #e63946;
+    color: white;
+    border-radius: 25px;
+    padding: 0.5rem 1.5rem; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
+ }
+ .btn-custom:hover {
+    background-color: #1d3557; 
+    color: white;
+ }
+ .btn-custom:active {
+    transform: translateY(1px);
+    box-shadow: none; 
+ }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container d-flex align-items-center justify-content-center min-vh-100 my-3">
+    <div class="card shadow-lg p-5 rounded-2" style="max-width: 600px; width: 100%;">
+        <h1 class="text-center h3 mb-4">Inscription</h1>
+
+        {{ form_start(registrationForm) }}
+
+        <div class="row">
+            <div class="col-12 mb-3">
+                {{ form_row(registrationForm.civilite, { 'attr': { 'class': 'form-select mx-2' }, 'label_attr': { 'class': 'form-label' } }) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_row(registrationForm.prenom, { 'attr': { 'class': 'form-control' }, 'label_attr': { 'class': 'form-label' } }) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_row(registrationForm.nom, { 'attr': { 'class': 'form-control' }, 'label_attr': { 'class': 'form-label' } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_row(registrationForm.pseudo, { 'attr': { 'class': 'form-control' }, 'label_attr': { 'class': 'form-label' } }) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_row(registrationForm.email, { 'attr': { 'class': 'form-control' }, 'label_attr': { 'class': 'form-label' } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_row(registrationForm.dateNaissance, { 'attr': { 'class': 'form-control' }, 'label_attr': { 'class': 'form-label' } }) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                {{ form_row(registrationForm.plainPassword.first, { 'attr': { 'class': 'form-control' }, 'label_attr': { 'class': 'form-label' }, 'label': 'Mot de passe' }) }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form_row(registrationForm.plainPassword.second, { 'attr': { 'class': 'form-control' }, 'label_attr': { 'class': 'form-label' }, 'label': 'Confirmez le mot de passe' }) }}
+            </div>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" class="btn btn-custom rounded mx-2 my-2">S'inscrire</button>
+        </div>
+
+        {{ form_end(registrationForm) }}
+    </div>
+</div>
+{% endblock %}

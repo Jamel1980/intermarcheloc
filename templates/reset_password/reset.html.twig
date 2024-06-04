@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réinitialiser le mot de passe{% endblock %}
+
+{% block body %}
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card shadow-lg p-4 rounded" style="max-width: 400px; width: 100%;">
+        <h1 class="text-center h3 mb-4">Réinitialiser le mot de passe</h1>
+        <form method="post">
+            <input type="hidden" name="token" value="{{ token }}">
+            <div class="mb-3">
+                <label for="inputPassword" class="form-label">Nouveau mot de passe</label>
+                <input type="password" name="plainPassword" id="inputPassword" class="form-control" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-custom">Réinitialiser le mot de passe</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

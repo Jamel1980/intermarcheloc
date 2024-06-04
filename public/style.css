@@ -1,0 +1,34 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.dropmenu a:hover{
+    background-color: var(--dark);
+    color:white;
+}
+
+
+
+
+@media (max-width:1200px){
+    .dropmenu a:hover{
+        background-color: var(--dark);
+        color:white;
+    }
+    .navbar .show .menu-gauche a,.navbar .collapsing .menu-gauche a{
+        text-align: center;
+        padding-block: 20px;
+    }
+    .navbar .show .menu-droite,.navbar .collapsing .menu-droite{
+        justify-content: space-evenly;
+        display: flex;
+        flex-direction: row;
+    }
+    .navbar .show .menu, .navbar .collapsing .menu{
+        display: flex;
+        flex-direction: column;
+        gap:20px;
+        
+    }
+}
+

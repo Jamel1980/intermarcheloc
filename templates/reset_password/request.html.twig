@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié{% endblock %}
+
+{% block body %}
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card shadow-lg p-4 rounded" style="max-width: 400px; width: 100%;">
+        <h1 class="text-center h3 mb-4">Mot de passe oublié</h1>
+        <form method="post">
+            <div class="mb-3">
+                <label for="inputEmail" class="form-label">Email</label>
+                <input type="email" name="email" id="inputEmail" class="form-control" required>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-custom">Envoyer</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ vehicule.titre }}{% endblock %}
+
+{% block stylesheets %}
+<style>
+ body {
+    font-family: 'Roboto', sans-serif;
+    background-image: url(https://www.oktalite.com/fileadmin/referenzen/food/intermarche-conches-en-ouche-frankreich/food-intermarche-conches-en-ouche-eingang-oktalite-10-slider.jpg);
+    background-size:cover;
+    background-attachment:fixed;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .prix-journalier {
+    font-size: 1rem; /* Augmente la taille de la police */
+    color: #ff5733; /* Change la couleur à une couleur plus vive */
+    font-weight: bold; /* Rend le texte en gras */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Ajoute une ombre légère au texte */
+  }
+  .btn-custom{
+    background-color: red; /* Couleur du bouton */
+    color: white; /* Couleur du texte */
+    border-radius: 25px; /* Coins arrondis */
+    padding: 0.5rem 1.5rem; /* Espacement interne */
+    font-weight: bold; /* Gras */
+    cursor: pointer; /* Curseur pointer */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease; /* Transition fluide */
+  }
+  .btn-custom2{
+    background-color: blue; /* Couleur du bouton */
+    color: white; /* Couleur du texte */
+    border-radius: 25px; /* Coins arrondis */
+    padding: 0.5rem 1.5rem; /* Espacement interne */
+    font-weight: bold; /* Gras */
+    cursor: pointer; /* Curseur pointer */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease; /* Transition fluide */
+  }
+  .btn-custom3{
+    background-color: orange; /* Couleur du bouton */
+    color: white; /* Couleur du texte */
+    border-radius: 25px; /* Coins arrondis */
+    padding: 0.5rem 1.5rem; /* Espacement interne */
+    font-weight: bold; /* Gras */
+    cursor: pointer; /* Curseur pointer */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease; /* Transition fluide */
+  }
+  .btn-custom:hover{
+      background-color: black; 
+      color: white;/* Couleur d'accentuation au survol */
+  }
+  .btn-custom2:hover {
+      background-color: green;
+      color: white;
+  }
+  .btn-custom3:hover {
+      background-color: teal;
+      color: white;
+  }
+  .btn-custom:active, .btn-custom2:active, .btn-custom3:active {
+      transform: translateY(1px); /* Légère translation vers le bas lorsqu'il est cliqué */
+      box-shadow: none; /* Suppression de l'ombre au clic */
+  }
+  .btn-custom {
+      box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3); /* Ombre rouge */
+  }
+  .btn-custom2 {
+      box-shadow: 0 5px 15px rgba(0, 0, 255, 0.3); /* Ombre bleue */
+  }
+  .btn-custom3 {
+      box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3); /* Ombre bleue */
+  }
+  .card.custom-rounded {
+      border-radius: 20px; /* Définissez ici le rayon souhaité */
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+  <div class="card shadow-lg custom-rounded">
+    <div class="row g-0">
+      <div class="col-md-6 d-flex align-items-center justify-content-center p-4">
+        <img src="{{ vehicule.photo }}" alt="{{ vehicule.titre }}" class="img-fluid rounded shadow" style="object-fit: contain; max-height: 500px;">
+      </div>
+      <div class="col-md-6">
+        <div class="card-body p-5">
+          <h2 class="card-title display-8 font-weight-bold text-primary">{{ vehicule.titre }}</h2>
+          <p class="card-text lead">{{ vehicule.description }}</p>
+          <h5 class="card-subtitle mb-4 prix-journalier">{{ vehicule.prixjournalier }}€TTC/jour, 100km/jour, 0,30€km/supp</h5>
+          <div>
+            {{ form_start(formCommande) }}
+            {{ form_row(formCommande.date_heure_depart) }}
+            {{ form_row(formCommande.date_heure_fin) }}
+            <div class="d-flex flex-wrap align-items-center justify-content-start mt-4">
+              <button type="submit" class="btn btn-custom rounded mx-2 my-2">
+                <i class="bi bi-calendar-check"></i> Réserver
+              </button>
+              {{ form_end(formCommande) }}
+              <a class="btn btn-custom2 rounded mx-2 my-2" href="{{ path('home') }}">Retour</a>
+              {% if is_granted("ROLE_ADMIN") %}
+              <a href="{{ path('admin_vehicule_edit', {id: vehicule.id}) }}" class="btn btn-custom3 rounded mx-2 my-2">
+                <i class="bi bi-pencil-square"></i> Edit
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

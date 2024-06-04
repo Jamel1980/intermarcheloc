@@ -1,0 +1,134 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Gestion des Vehicules{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .custom-table thead {
+        background-color: #343a40;
+        color: white;
+    }
+    .custom-table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+    .custom-table td, .custom-table th {
+        vertical-align: middle;
+        text-align: center;
+        border: 1px solid #dee2e6;
+    }
+    .custom-table img {
+        border-radius: 10px;
+    }
+    .custom-table-actions a {
+        margin: 0 5px;
+    }
+    .btn-custom {
+        background-color: red;
+        border-radius: 10px;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+    .btn-custom:hover {
+        background-color: #9f2b2b;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+{% for message in app.flashes('success') %}
+<div class="alert alert-success alert-dismissible fade show text-center w-50 mx-auto my-2" role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+
+<div class="d-flex justify-content-center my-4">
+    <a href="{{ path('admin_vehicule') }}#form-vehicule-admin" class="btn btn-custom">Ajouter un nouveau véhicule</a>
+</div>
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h2 class="card-title">Liste des Véhicules</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="bg-dark text-white">
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Titre</th>
+                                    <th scope="col">Marque</th>
+                                    <th scope="col">Modèle</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Photo</th>
+                                    <th scope="col">Prix</th>
+                                    <th scope="col">Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for vehicule in vehicules %}
+                                <tr>
+                                    <td>{{ vehicule.id }}</td>
+                                    <td>{{ vehicule.titre }}</td>
+                                    <td>{{ vehicule.marque }}</td>
+                                    <td>{{ vehicule.modele }}</td>
+                                    <td>{{ vehicule.description }}</td>
+                                    <td><img src="{{ vehicule.photo }}" alt="Photo de {{ vehicule.titre }}" width="100px"></td>
+                                    <td>{{ vehicule.PrixJournalier() }}€</td>
+                                    <td class="custom-table-actions">
+                                        <a href="{{ path('admin_vehicule_edit', {id: vehicule.id}) }}#form-vehicule-admin" class="btn btn-warning me-2" title="Modifier"><i class="bi bi-pencil-square"></i></a>
+                                        <a href="{{ path('admin_vehicule_delete', {id: vehicule.id}) }}" class="btn btn-danger" title="Supprimer"><i class="bi bi-trash"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="form-vehicule-admin" class="row mt-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h2 class="card-title">Ajouter / Modifier un Véhicule</h2>
+                </div>
+                <div class="card-body">
+                    {{ form_start(formVehicule, {'attr': {'novalidate': 'novalidate'}}) }}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form_row(formVehicule.titre, {'label': 'Titre', 'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(formVehicule.marque, {'label': 'Marque', 'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(formVehicule.modele, {'label': 'Modèle', 'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(formVehicule.prix_journalier, {'label': 'Prix/jour', 'attr': {'class': 'form-control'}}) }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form_row(formVehicule.photo, {'label': 'Photo', 'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form_row(formVehicule.description, {'label': 'Description', 'attr': {'class': 'form-control', 'style': 'height: 412px;'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-custom w-100">Enregistrer</button>
+                    {{ form_end(formVehicule) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

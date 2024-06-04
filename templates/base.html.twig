@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Intermarché Labouheyre</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.1/lux/bootstrap.min.css" integrity="sha512-v51SrQ+z+dLohC1d0HyJA0nSM6XIyLoQl3IxRtM28vlbOPBRMSD3MlyUMNkLyBPlVGxt+9V+ChVG2c8LQsiu3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="/style.css">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+        <style>
+        /* Ajout des styles pour le survol pour le menu*/
+        .nav-link {
+            font-family: 'Lato', sans-serif;
+            font-size: 15px;
+            color: white !important; /* Couleur par défaut */
+            transition: color 0.3s ease; /* Pour une transition en douceur */
+        }
+        .nav-link:hover {
+            color: red !important; /* Couleur au survol */
+        }
+         /* Styles pour le dropdown */
+        .dropdown-toggle {
+            background-color: #343a40 !important; /* Couleur de fond identique à celle du menu */
+            color: inherit; /* Couleur par défaut des liens */
+            
+        }
+        .dropdown-toggle:hover {
+            color: red !important; /* Couleur au survol */
+        }
+        .dropdown-menu {
+            background-color: #343a40; /* Couleur de fond du menu déroulant */
+            
+        }
+        .dropdown-item {
+            color: white; /* Couleur par défaut des liens dans le menu déroulant */
+        }
+        .dropdown-item:hover {
+            color: red !important; /* Couleur au survol des liens dans le menu déroulant */
+            background-color: transparent !important; /* Conserver le fond transparent */
+        }
+        </style>
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-xl navbar-dark bg-dark" style="box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);">
+            <div class="container-fluid">
+               <a class="navbar-brand" href="{{ path('home') }}" style="font-family: 'Lato', sans-serif; font-size: 18px;">
+                    <img src="https://publisher-media.bonial.biz/publisher-logos/f9c091ac-8e88-4ef0-90c2-b2b878f5d46f.png?impolicy=128x128"  style="width: 55px;" alt="Logo"> <!-- Remplacez par le chemin de votre logo -->
+                    LABOUHEYRE
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <div class="d-flex justify-content-between w-100 d-inline-flex menu">
+                        <ul class="navbar-nav ms-auto menu-gauche" style="align-items: center;">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{{ path('home') }}" style="font-family: 'Lato', sans-serif; font-size: 15px;">Accueil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/about"style="font-family: 'Lato', sans-serif; font-size: 15px;">à propos</a>
+                            </li>
+                            {% if is_granted("ROLE_ADMIN") %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-family: 'Lato', sans-serif; font-size: 15px;">
+                                    ADMINISTRATEUR
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end dropmenu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="{{ path('app_admin') }}" style="font-family: 'Lato', sans-serif; font-size: 14px;">ACCUEIL ADMIN</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('admin_vehicule') }}" style="font-family: 'Lato', sans-serif; font-size: 14px;;">GESTION DES VÉHICULES</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('admin_membre') }}" style="font-family: 'Lato', sans-serif; font-size: 14px;">GESTION DES MEMBRES</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('admin_commande') }}" style="font-family: 'Lato', sans-serif; font-size: 14px;">GESTION DES COMMANDES</a></li>
+                                </ul>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        <ul class="navbar-nav ms-auto menu-droite">
+                            {% if app.user %}
+                                <li class="nav-item">
+                                    <a href="{{ path('monCompte') }}" class="btn btn-outline-danger mx-2 rounded">Mon Compte</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ path('app_logout') }}" class="btn btn-outline-light mx-2 rounded ">Déconnexion</a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a href="{{ path('app_register') }}" class="btn btn-success mx-2 rounded">Inscription</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ path('app_login') }}" class="btn btn-info mx-2 rounded">Connexion</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        
+        {% for message in app.flashes('success') %}
+        <div class="alert alert-dark text-center w-50 mx-auto my-2">{{ message }}</div>   
+        {% endfor %}
+        
+        {% block body %}
+        
+        {% endblock %}
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+          
+        <footer class="bg-dark text-white py-4 mt-5" style="font-family: 'Poppins', sans-serif; font-size: 18px;">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-4 mb-3 mb-md-0" style="box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);"> <!-- Intensification de l'effet d'ombre -->
+                        <h3 class="text-uppercase text-light" style="font-size: 24px;"><u>Intermarché Loc</u></h3>
+                        <p>Votre spécialiste dans la location de véhicules pour les professionnels et les particuliers.</p>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0" style="box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);"> <!-- Intensification de l'effet d'ombre -->
+                        <h3 class="text-uppercase text-light" style="font-size: 24px;"><u>Contact</u></h3>
+                        <p>500 Rue De Gouvela<br>40120 Labouheyre<br>FRANCE</p>
+                        <p>Tél: 05 58 07 12 36</p>
+                    </div>
+                    <div class="col-md-4" style="box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.4);"> <!-- Intensification de l'effet d'ombre -->
+                        <h3 class="text-uppercase text-light" style="font-size: 24px;"><u>Suivez-nous</u></h3>
+                        <div class="d-flex justify-content-center">
+                            <a href="https://www.facebook.com/intermarchelabouheyreofficiel?locale=fr_FR" class="text-white mx-2"><i class="bi bi-facebook fs-4" style="font-size: 2rem; color: #3b5998;"></i></a>
+                            <a href="https://www.linkedin.com/in/sandie-t-88681649/" class="text-white mx-2"><i class="bi bi-linkedin fs-4" style="font-size: 2rem; color: #0e76a8;"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="bg-light">
+                <div class="row">
+                    <div class="col text-center">
+                        <p class="mb-0">&copy; 2024 INTERMARCHÉLOC. Tous droits réservés.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+
+
+    </body>
+</html>

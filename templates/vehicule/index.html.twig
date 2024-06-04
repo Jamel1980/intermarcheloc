@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block stylesheets %}
+<style>
+
+  .btn-hover-alert:hover {
+    background-color: #343a40 !important; /* Utilise la couleur rouge de Bootstrap */
+    border-color: #343a40!important; /* Assure que la bordure est également rouge */
+  }
+  .bg-image {
+    background-image: url(https://www.oktalite.com/fileadmin/referenzen/food/intermarche-conches-en-ouche-frankreich/food-intermarche-conches-en-ouche-eingang-oktalite-10-slider.jpg);
+    height: 600px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .btn-hover-alert:hover {
+    background-color: #343a40 !important; /* Couleur d'accentuation */
+    border-color: #343a40!important; /* Couleur de la bordure */
+  }
+
+  .card {
+    width: 20rem;
+    height: 30rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    border: none;
+    border-radius: 15px;
+    overflow: hidden; /* Pour masquer le débordement */
+  }
+
+  .card-img-top {
+    height: 50%;
+    object-fit: cover;
+    border-radius: 15px 15px 0 0; /* Coins arrondis seulement en haut */
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    font-weight: 700;
+    color: #343a40; /* Couleur du texte du titre */
+    margin-bottom: 0.5rem;
+  }
+
+  .card-text {
+    color: #6c757d; /* Couleur du texte du paragraphe */
+    height: 30%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .btn-custom{
+    background-color: black; /* Couleur du bouton */
+    color: white; /* Couleur du texte */
+    border-radius: 25px; /* Coins arrondis */
+    padding: 0.5rem 1.5rem; /* Espacement interne */
+    font-weight: bold; /* Gras */
+    cursor: pointer; /* Curseur pointer */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease; /* Transition fluide */
+    font-size: medium;
+  }
+
+  .btn-custom:hover{
+      background-color: red; 
+      color: white;/* Couleur d'accentuation au survol */
+  }
+  .btn-custom:active{
+      transform: translateY(1px); /* Légère translation vers le bas lorsqu'il est cliqué */
+      box-shadow: none; /* Suppression de l'ombre au clic */
+  }
+  .btn-custom {
+      box-shadow: 2px 3px 7px red; /* Ombre rouge */
+  }
+  .text1 {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      color: white; /* Intérieur rouge */
+      text-shadow: 
+          -2px -2px 0 #000, /* Contour noir */
+          2px -2px 0 #000,
+          -2px 2px 0 #000,
+          2px 2px 0 #000,
+          -2px 0 0 #000,
+          2px 0 0 #000,
+          0 -2px 0 #000,
+          0 2px 0 #000; /* Ajoute des contours plus épais */
+      font-size: 4rem; /* Taille de police */
+  }
+  .text2{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+      color: red; /* Intérieur rouge */
+      text-shadow: 
+          -2px -2px 0 #000, /* Contour noir */
+          2px -2px 0 #000,
+          -2px 2px 0 #000,
+          2px 2px 0 #000,
+          -2px 0 0 #000,
+          2px 0 0 #000,
+          0 -2px 0 #000,
+          0 2px 0 #000; /* Ajoute des contours plus épais */
+      font-size: 2rem; /* Taille de police */
+  }
+  .section-title {
+    text-align: center;
+    font-size: 1.6rem;
+    background: red;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    color: white;
+    box-shadow: 4px 7px 9px black;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  }
+  .custom {
+    transition: transform 0.3s ease-in-out;
+  }
+  .custom:hover {
+    transform: scale(1.2);
+  }
+
+</style>
+{% endblock %}
+
+{% block body %}
+
+
+<div class="p-5 text-center bg-image rounded-3">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <div class="text-light">
+        <h1 class="my-3 text1"> Intermarché Loc</h1>
+        <h3 class="my-4 text2">Location de véhicules 24h/24 et 7j/7</h3>
+        <a class="btn btn-custom rounded-3 mx-2 my-2" href="#voitures">Louer un véhicule</a>
+      </div>
+    </div>
+</div>
+
+<div id="voitures" class="section-title">NOS VÉHICULES DISPONIBLES À LA LOCATION ET TOUJOURS À PRIX INTERMARCHÉ !!!</div>
+
+<div class="cars-holder" style="
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 40px;
+    margin: 5%;
+  ">
+
+    {% for vehicule in vehicules %}
+    <div class="card" style="width: 20rem;height: 30rem;">
+        <img class="card-img-top custom" src="{{ vehicule.photo }}" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{ vehicule.titre }}</h5>
+            <h4 class="card-title">{{ vehicule.PrixJournalier() }}€/jour</h4>
+            <p class="card-text" style="height: 30%;overflow: hidden;white-space: nowrap; text-overflow:ellipsis">{{ vehicule.description }}</p>
+            <a href="{{ path('view', {id:vehicule.id}) }}" class="btn btn-custom rounded my-2">Réserver</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}

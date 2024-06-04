@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block stylesheets %}
+<style>
+    .btn-custom {
+        background-color: black;
+        border-radius: 20px;
+        color: white;
+        transition: background-color 0.3s ease;
+        font-family: 'Roboto', sans-serif;
+    }
+    .btn-custom:hover {
+        background-color: red;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container p-3">
+    <h1 class="text-center my-3">Bonjour Admin !</h1>
+    <h2 class="text-center my-3">Que fait-on aujourd'hui ?</h2>
+    <div class="d-flex justify-content-center flex-column mw-25">
+       <a href="{{ path('admin_membre') }}" class="btn btn-custom rounded-3 my-3">Gestion des membres</a>
+       <a href="{{ path('admin_vehicule') }}" class="btn btn-custom rounded-3 my-3">Gestion des vehicules</a>
+       <a href="{{ path('admin_commande') }}" class="btn btn-custom rounded-3 my-3">Gestion des commandes</a>
+    </div>
+</div>
+
+{% endblock %}

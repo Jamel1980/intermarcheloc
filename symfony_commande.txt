@@ -1,0 +1,73 @@
+Démarrage et création du projet:
+
+avec la CLI : 
+symfony new annuaire_des_salaries --version=5.4  --webapp
+
+sans la CLI
+composer create-project symfony/skeleton:"^5.4" nom_du_projet 
+	- créer un projet symfony en version 5.4 (version LTS, voir symfony.com/releases)
+	- puis cd nom_du_projet et composer require webapp
+
+
+1.)Lancer un serveur local sur le port 8000 (pour arrêter le serveur, faire CTRL + C)
+	- php -S localhost:8000 -t public 
+
+2.)Créer la database (le terme doctrine est l'ORM de symfony)
+	- .env commenter la DATABASE_URL(postgresql) et décommenter la DATABASE_URL(mysql) et modifier ce qu'il y a 
+	modifier DATABASE_URL="mysql://root@127.0.0.1:3306/nomdelaBDD"
+	- php bin/console doctrine:database:create raccourci d:c:c  
+	 ->après config de la BDD en .env permet de créer la BDD
+
+3.)Créer des entitées
+	- php bin/console make:entity NomEntity
+ 		->Créé une table de BDD sous forme d'objet avec chaque propriété représentant un champs, gère les relations, types, longueur, le fait que le champs soit nullable ou non. A l'issu: il génére l'entité ainsi que le repository correspondant à l'entité afin de pouvoir y accéder
+
+3.a)Fin de la création entitées
+	- php bin/console make:migration  
+		->génére un fichier de migration des entitées créées ou mofifiées qui n'est autre qu'une suite de requête d'insertion ou de modification
+	- php bin/console doctrine:migrations:migrate d:m:m	
+ 		->éxécute les migrations générées dans la base de donnée via l'ORM DOCTRINE
+
+#######################################################*****En cas d'urgence****###########################################################################
+#
+#	 php bin/console doctrine:schema:update --force ->éxécute une mise à jour de la base de donnée sans nécessiter de migration. Lecture instantanée des entités et requête éxécuté directement en BDD (Déconseillé)
+#
+###################################################################################################################################################################################
+
+4.)Créer un controller
+	- php bin/console make:controller
+ 		->Créé un controller avec sa fonction index et une vue de cette fonction en twig classée dans un dossier du même nom que le controller 
+	**(mise en place de la navbar etc (bootstrap) dans le fichier base.html.twig)**	
+
+
+
+4.a)En cas besoin d'un formulaire, faire un  
+	- php bin/console make:form NomType
+		->créé un formulaire en liens direct avec une entité.
+
+	**(on peut le rattacher a une entité pour avoir des inputs similaire au champs)** - une propriété de l'entité
+		->un champs de formulaire soit un champs de table en BDD donne un input
+
+	**(On peut ainsi ensuite utiliser les propriétés de form telles que: createForm(FormType::class, Entity))**
+		=>créé le formulaire handleRequest($request)
+		=>récupère les données du formulaire 
+			- render en renderForm()
+		!!(méthode alternative : createView()=>créé une vue du formulaire pour la Twig)
+
+
+4.b)Si je souhaite que mon formulaire utilise bootstrap, il faut ajouter dans le twig.yaml dans config
+	- form_themes: ['bootstrap_5_layout.html.twig']	
+
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    form_themes: ['bootstrap_5_layout.html.twig']					 
+
+
+################################################Jouet puissant############################################################
+
+composer require orm-fixtures : installer le bundle des fixtures
+
+php bin/console make:fixtures nom_du_fichier : créer un fichier de fixtures
+
+php bin/console doctrine:fixtures:load : exécuter les fixtures (d:f:l)
+	

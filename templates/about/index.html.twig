@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Location de Voiture - Intermarché de LABOUHEYRE{% endblock %}
+
+{% block stylesheets %}
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
+            background-image: url(https://www.oktalite.com/fileadmin/referenzen/food/intermarche-conches-en-ouche-frankreich/food-intermarche-conches-en-ouche-eingang-oktalite-10-slider.jpg);
+            background-size:cover;
+            background-attachment:fixed;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .hero-section h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: white;
+            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
+        }
+        .text2{
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 1.5rem;
+            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
+            color: white;
+        }
+        .titre2{
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: red;
+            font-size: 2rem;
+            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
+        }
+        .container {
+            margin-top: 2rem;
+        }
+        .car-gallery img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .benefits {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+        }
+        .benefits h2 {
+            margin-bottom: 1rem;
+        }
+        .benefits p {
+            font-size: 1.1rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="hero-section text-center">
+    <h1>Bienvenue chez Intermarché de LABOUHEYRE</h1>
+    <p class="text2">"Location de voitures facile, rapide et abordable"</p>
+</div>
+
+<div class="container mt-5">
+   
+    <div class="row car-gallery benefits mt-5">
+        <div class="col-md-4 my-2">
+            <img src="https://www.index-assurance.fr/fichiers/images/peugeot-208-allure.jpg" alt="Voiture 1">
+        </div>
+        <div class="col-md-4 my-2">
+            <img src="https://images.netdirector.co.uk/gforces-auto/image/upload/w_375,h_281,q_auto,c_fill,f_auto,fl_lossy/auto-client/cb14eccb44bcc6bd29955c6fb94adf02/peugeot_rifter_2024_4x3.jpg" alt="Voiture 2">
+        </div>
+        <div class="col-md-4 my-2">
+            <img src="https://s3.caroom.fr/cache/miniatures_600x350/modeles/dacia-sandero-1692627653.png" alt="Voiture 3">
+        </div>
+        <h2 class="my-4">Pourquoi nous choisir ?</h2>
+        <p>Chez Intermarché de LABOUHEYRE, nous nous engageons à offrir un service de location de voitures de haute qualité. Voici quelques-uns des avantages dont vous pouvez bénéficier :</p>
+        <ul>
+            <li>Large choix de véhicules récents et bien entretenus</li>
+            <li>Prix compétitifs et transparents</li>
+            <li>Service client réactif et professionnel</li>
+            <li>Flexibilité dans les options de location</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
